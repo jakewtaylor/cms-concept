@@ -1,11 +1,10 @@
-import { LoaderFunction, useLoaderData } from 'remix';
-import cms from '~/cms';
-import { ContentType } from '~/cms/Outlet';
+import { Link, LoaderFunction, useLoaderData } from 'remix';
+import { loadCmsData, Area, Content } from '~/cms';
 
-const page = cms.page('about');
-
-export const loader: LoaderFunction = () => {
-  return {};
+export const loader: LoaderFunction = async () => {
+  return {
+    data: await loadCmsData('about'),
+  };
 };
 
 export default function About() {
@@ -14,10 +13,14 @@ export default function About() {
   console.log(data);
 
   return (
-    <div>
-      <h1>About</h1>
+    <Area id="about">
+      <div>
+        <h1>About</h1>
 
-      <page.CmsOutlet name="intro" type={ContentType.Text} />
-    </div>
+        <Content id="intro" />
+
+        <Link to="/">Go to home</Link>
+      </div>
+    </Area>
   );
 }
